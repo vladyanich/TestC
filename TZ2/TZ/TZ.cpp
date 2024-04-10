@@ -3,7 +3,6 @@
 #include <string.h> 
 #include <iostream> 
 #include <cmath> 
-//#include "stdafx.h" 
 #include <malloc.h> 
 #include <cstring> 
 #include <cstdlib> 
@@ -16,19 +15,16 @@
 
 typedef struct Node  //Объявление структуры 
 {
-	char* data; //?
+	char data[12];
 	struct Node* next;
 } Node_t;
 
-Node_t* push_node(Node_t* topNode, char* data)  //добавление и сдвиг ноды в списке 
+Node_t *push_node(Node_t* topNode, char* newData)  //добавление и сдвиг ноды в списке 
 {
-	Node_t* ptr = (Node_t*)malloc(sizeof(Node_t));
-	int i = strlen(data);
-	char* str = (char*)malloc(i * sizeof(char));
-
-	ptr->data = data; //?
+	Node_t *ptr = (Node_t*)malloc(sizeof(Node_t));
+	int i = strlen(newData);
+	memcpy(ptr->data, newData, 12);
 	ptr->next = topNode;
-
 	return ptr;
 }
 
@@ -121,7 +117,17 @@ int check_cheat(char* cheatString)
 	return out;
 }
 
-
+void repair_length(char *data)
+{
+	int i = strlen(data+1);
+	for (int n = 0; n <= i; n++)
+	{
+		if (data[i] == '\n')
+		{
+			data[i] = '\0';
+		}
+	}
+}
 
 int main()
 {
@@ -146,8 +152,15 @@ int main()
 		case 1:    // Добавить элемент 
 		{
 			fgets(dataNode, 12, stdin);
-			if (check_ascii_node(dataNode) == true) topNode = push_node(topNode, dataNode);
-			else printf("Used upper half of ASCII table!\n");
+			if (check_ascii_node(dataNode))
+			{
+				repair_length(dataNode);
+				topNode = push_node(topNode, dataNode);
+			}
+			else
+			{
+				printf("Used upper half of ASCII table!\n");
+			}
 		}
 		break;
 		case 2:  // Отобразить список 
