@@ -25,11 +25,7 @@ Node_t* push_node(Node_t* topNode, char* data)  //добавление и сдв
 	Node_t* ptr = (Node_t*)malloc(sizeof(Node_t));
 	int i = strlen(data);
 	char* str = (char*)malloc(i * sizeof(char));
-	if (i > 0)
-	{
-		str = data;
-		str[i + 1] = '\0';
-	}
+
 	ptr->data = data; //?
 	ptr->next = topNode;
 
