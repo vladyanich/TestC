@@ -116,19 +116,17 @@ int check_cheat(char* cheatString)
 		}
 		return out;
 	}
-	else
-	{
-		return -1;
-	}
+	return -1;
 }
 
 void repair_length(char *data)
 {
-	for (int stringSize = 0; stringSize <= LIST_DATA_STRING_SIZE; stringSize++)
+	int sizeOfString = strlen(data);
+	for (int i = 0; i <= sizeOfString; i++) //strlen добавить
 	{
-		if (data[stringSize] == '\n')
+		if (data[i] == '\n')
 		{
-			data[stringSize] = '\0';
+			data[i] = '\0';
 		}
 	}
 }
@@ -154,11 +152,11 @@ int main()
 		{
 			case MENU_ADD_ELEMENT_OPTION:    // Добавить элемент 
 			{
-				fgets(dataNode, LIST_DATA_STRING_SIZE, stdin);
-				if (check_ascii_node(dataNode))
+				fgets(buffer, LIST_DATA_STRING_SIZE, stdin);
+				if (check_ascii_node(buffer))
 				{
-					repair_length(dataNode);
-					topNode = push_node(topNode, dataNode);
+					repair_length(buffer);
+					topNode = push_node(topNode, buffer);
 				}
 				else
 				{
